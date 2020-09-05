@@ -35,3 +35,19 @@ Fourth, the INCDATE feature was eliminated as contains the collision date as in 
 Fifth, the location feature was eliminated because it contains information that is similar to the X and Y GPS coordinates.
 
 ![alt tag](figures/Fig2.jpg)
+
+### Data cleaning
+
+After dropping the features, several categorical features had a large ratio of missing values: INATTENTIONIND, PEDROWNOTGRNT, SPEEDING. These features contain only the value Y and nan (not a number). For them, it was speculated that NaN corresponds to no (N), as the SPD agent could have decided not to fill these fields when the condition was negative. All Ns were converted to 0 and all Y to 1, transforming these three features into numerical features. 
+
+The feature UNDERINFL contains 4 values: N, 0, Y, 1. In this case, N was converted to 0 and Y to 1, also transforming UNDERINFL into a numerical feature. For UNDERINFL, Y was not the only entry present in the original dataset, and NaN entries were not assumed to be an indication of a negative condition.
+
+LIGHTCOND, ROADCOND, and WEATHER features already contain a value ‘Unknown’. For them, nan entries were converted to ‘Unknown’.
+
+The number of missing values in the JUNCTIONTYPE feature was reduced by using valid JUNCTIONTYPE entries of other records with the same X and Y coordinate values. This decreased the number of missing values for JUNCTIONTYPE from 3.2% to 1.3% in the training dataset and from 3.3% to 1.6% in the test dataset. The
+
+As predictive models only accept numerical values, the information of the INCDTTM feature was converted into 4 newly created numerical features: the year, the month, the day of the week, and the hour. 
+
+Box plots where used to detect the outliers for the numerical features with a large range of variation (Figure 2). The collisions involving up to 81 persons, with a lane segment greater than 525241 and a crosswalk number larger than 5239700 are outliers and were eliminated. In total, only 3 records of the train set were eliminated.
+
+ 
