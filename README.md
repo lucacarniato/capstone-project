@@ -18,11 +18,12 @@ The source contains a mixture of categorical and continuous variables.
 
 ### Feature selection
 
-The entire set was immediately divided into a train and test set. Decisions on feature dropping and data cleaning were taken by analyzing only the test set and applied to both the train and test sets. This choice was motivated to avoid lookahead bias. Figure 1 shows a summary of the test set.
+The entire set was immediately divided into a train and test set. Decisions on feature dropping and data cleaning were taken by analyzing only the test set and applied to both the train and test sets. This choice was motivated to avoid lookahead bias. Table 1 shows a summary of the test set.
 
-![alt tag](figures/Fig1.jpg)
+![Tab1](figures/Fig1.jpg)
+[Table 1. Train set summary]
 
-Table 1 summarizes the decisions taken for selecting the features.
+Table 2 summarizes the decisions taken for selecting the features.
 
 First, the features identical to the target or containing the same type of information were eliminated, for preventing the models to use the target as a feature.
 
@@ -34,7 +35,8 @@ Fourth, the INCDATE feature was eliminated as contains the collision date as in 
 
 Fifth, the location feature was eliminated because it contains information that is similar to the X and Y GPS coordinates.
 
-![alt tag](figures/Fig2.jpg)
+![Tab2](figures/Fig2.jpg)
+[Table 2. Dropped features and reasons for dropping]
 
 ### Data cleaning
 
@@ -46,8 +48,11 @@ LIGHTCOND, ROADCOND, and WEATHER features already contain a value ‘Unknown’.
 
 The number of missing values in the JUNCTIONTYPE feature was reduced by using valid JUNCTIONTYPE entries of other records with the same X and Y coordinate values. This decreased the number of missing values for JUNCTIONTYPE from 3.2% to 1.3% in the training dataset and from 3.3% to 1.6% in the test dataset. The
 
-As predictive models only accept numerical values, the information of the INCDTTM feature was converted into 4 newly created numerical features: the year, the month, the day of the week, and the hour. 
+As most predictive models only accept numerical values, the information of the INCDTTM feature was converted into 4 newly created numerical features: the year, the month, the day of the week, and the hour. 
 
-Box plots where used to detect the outliers for the numerical features with a large range of variation (Figure 2). The collisions involving up to 81 persons, with a lane segment greater than 525241 and a crosswalk number larger than 5239700 are outliers and were eliminated. In total, only 3 records of the train set were eliminated.
+Box plots where used to detect the outliers for the numerical features with a large range of variation (Figure 1). The collisions involving up to 81 persons, with a lane segment greater than 525241 and a crosswalk number larger than 5239700 are outliers and were eliminated. In total, only 3 records of the train set were eliminated.
+
+![Fig1](figures/Fig3.jpg)
+[Figure 1. Box plots for numerical features with a large range of variation]
 
  
