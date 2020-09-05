@@ -57,4 +57,8 @@ Box plots where used to detect the outliers for features with a large range of v
 
 [Figure 1. Box plots for numerical features with a large range of variation]
 
+Table 3 summarizes the train set after feature selection, data cleaning and conversion of categorical features into numerical ordinal features. 
+
+![Tab3](figures/Fig4.jpg)
  
+ [Table 3. Train set summary after feature dropping and data cleaning]
