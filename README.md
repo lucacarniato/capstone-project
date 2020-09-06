@@ -104,18 +104,22 @@ The parameters were tuned using the average 3 fold cross validation score on the
 
  ## Results
 
-Table 4 shows the metrics on the test set for each model.
+Table 4 shows the metrics on the test set for each model. In this case, it is more important to correctly predict the collision with causing a personal injury that correctly predict the collisions with property damage. The decision tree classifier correctly predicts more severity 2 collisions (76% of all severity 2 collisions in the test set).
+
 
 ![Tab4](figures/Fig9.jpg)
 
-
  ## Discussion
 
-strong influence of lane number
+From the results it is clear that models with an higr accuracy on severity 1 collisions tends to have a lower accuracy on severity 2 collisions. XGBoost is the best model for severity 1 collins and has the best accuracy and f1 scores, but does a worse job if severity 2 collisions. The decision tree has the opposite behaviour. The voting model has an average performance for both collision types, between XGBoost and decision tree.   
 
  ## Conclusions
 
- road conditions, lean number plays a strong role
- furure improvements
+ In this study, the  Seattle Police Department collisions records were analyzyd with the aim of building a model that predicts collisions causing personal injuries from data available before a collosion occours. 
+ this model can be to issue  a warning on the highway signs when a serious accident is predicted, to warn drivers to pay more attention in dangerous conditions.
+ After data cleaning and selecting only the feature describing the pre-collisions conditions, a decision tree classifier was found to be able to predict severe accidents with 76% accuraracy.
+The data set was strongly umbalanced towards collisions with severity code 1 (property damage). Additional records with severity code 2 would help to improve the model performance for this type of accidents
+ Some of the data were missing a description, while for others with a large amount of missing values assumprions were made, In these cases it would have been helpful to have less missing value fields.
+
 
 
