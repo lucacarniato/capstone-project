@@ -57,8 +57,65 @@ Box plots where used to detect the outliers for features with a large range of v
 
 [Figure 1. Box plots for numerical features with a large range of variation]
 
+
 Table 3 summarizes the train set after feature selection, data cleaning and conversion of categorical features into numerical ordinal features. 
 
 ![Tab3](figures/Fig4.jpg)
  
  [Table 3. Train set summary after feature dropping and data cleaning]
+
+ ## Methodology
+
+ ### Exploratory Data Analysis
+
+For each feature, the recods in the train set were grouped by the target value (0/1) to assess if the means group values are significantly different (t-test with a p value <0.05). It was found that the mean group values are significally different, except for the month feature. As result, month was dropped (Figure 2). This result was unexpected, because severe accidents with personal injuries were expected to occour more frequently in fall or winter, where wheater and road conditions can be worse.
+
+![Fig2](figures/Fig5.jpg)
+ [Figure 2. Bar chart for month feature grouped by severity code]
+
+As expected, collisions involving a pedastrian or a bycicle more often results in a personal injuries compared to collisions with no pedastrian or bycicle involved (Figure 3 and 4). When forecasting the severity of a collision is therfore important to take into account the location of a possible accident, and whatever this location has a pedastrian area.
+
+
+![Fig3](figures/Fig6.jpg)
+[Figure 3. Bar chart for PERSONCOUNT feature grouped by severity code]
+
+![Fig4](figures/Fig7.jpg)
+[Figure 4. Bar chart for PEDCOUNT feature grouped by severity code]
+
+Before jumping into modelling a correlation analysis was performed, to identify strongly correlated features (absolute correlation value > 0.9). I one feature is strongly correlated to another it can be dropped to reduce the dimensionality of the feature set. 
+The feature correlation matrix computed from the train set is shown in Figure 5. Only ADDRTYPE was found to be strongly correlated to JUNCTIONTYPE (-0.92). Since JUNCTIONTYPE had more missing values than ADDRTYPE in the initial dataset, the JUNCTIONTYPE feature was dropped.
+
+![Fig5](figures/Fig8.jpg)
+[Figure 5. Feature correlation matrix]
+
+ ### Modelling
+
+The train set in unbalanced: the 69.8% of the records have a target equal to 0 (property damage). Therfore, the weights to apply to each target during traing were set inversely proportional to class frequencies.This chociche mitigates the model bias, where only the most frequent class is chososen to maximize model accuracy.
+
+Before modelling, the feature values in the train and test set were also scaled using the feature's train set mean and standard deviation.
+
+Four models were fitted to the train set and compared using the test set:
+* Decision tree classifier: node splitting criterion (gini,entropy) and tree max depth were tuned
+* XGBoost classifier: gamma parameter for tree splitting and tree max depth were tuned
+* Random forest: node splitting criterion (gini,entropy) and tree max depth were tuned
+* Soft voting classifier: build using the probabilities computed from tree best models above
+
+The parameters were tuned using the average 3 fold cross validation score on the train set. The logarimic loss was used as score function because it puts more emphasis on probabilities than other metrics.
+
+ ## Results
+
+Table 4 shows the metrics on the test set for each model.
+
+![Tab4](figures/Fig9.jpg)
+
+
+ ## Discussion
+
+strong influence of lane number
+
+ ## Conclusions
+
+ road conditions, lean number plays a strong role
+ furure improvements
+
+
