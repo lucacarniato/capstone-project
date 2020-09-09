@@ -74,7 +74,7 @@ For each feature, the records in the train set were grouped by the target value 
 ![Fig2](figures/Fig5.jpg)
  [Figure 2. Bar chart for month feature grouped by severity code]
 
-As expected, collisions involving a pedestrian or a bicycle more often results in a personal injury compared to collisions with no pedestrian or bicycle involved (Figure 3 and 4). When forecasting the severity of a collision is important to take into account the presence of persons and bicycles (such as at pedestrian of bicycle crossings).
+As expected, collisions involving a pedestrian or a bicycle more frequently results in a personal injury compared to collisions with no pedestrian or bicycle involved (Figure 3 and 4). When forecasting the severity of a collision is important to take into account the presence of persons and bicycles (such as at pedestrian of bicycle crossings).
 
 ![Fig3](figures/Fig6.jpg)
 [Figure 3. Bar chart for PERSONCOUNT feature grouped by severity code]
