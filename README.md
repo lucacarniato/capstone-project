@@ -6,10 +6,10 @@ The Seattle Police Department (SPD) provides road collisions records since 2004,
 Preventing road collisions is a major concern for public authorities. Therefore, it is important for the SPD to accurately predict whatever a serious accident will occur given all available data. It is also important to identify the factors causing serious accidents, as these could be eliminated or mitigated before a collision occurs.
 
 ### Problem
-This project aims to predict the severity of a collision given other factors, such as the wheatear condition, the road condition, the number of vehicles, and persons on the road.
+This project aims to predict the severity of a collision given other factors, such as the wheatear condition, the road condition, the number of vehicles, and number of persons on the road.
 
 ### Interest
-Predicting the severity of a collision can be of interest for a warning system. The SPD could issue a warning on the highway signs when a serious accident is predicted (severity 1, personal injury). This information allows the drivers to pay more attention when the notification is issued. 
+Predicting the severity of a collision can be of interest for a warning system. The SPD could issue a warning on the highway signs when a serious accident is predicted (severity 1, personal injury), to inform the drivers to pay more attention when the notification is issued. 
 
 ## Data
 
@@ -79,8 +79,9 @@ As expected, collisions involving a pedestrian or a bicycle more often results i
 ![Fig3](figures/Fig6.jpg)
 [Figure 3. Bar chart for PERSONCOUNT feature grouped by severity code]
 
+
 ![Fig4](figures/Fig7.jpg)
-[Figure 4. Bar chart for PEDCOUNT feature grouped by severity code]
+[Figure 4. Bar chart for PEDCYLCOUNT feature grouped by severity code]
 
 Before jumping into modeling a correlation analysis was performed, to identify strongly correlated features (absolute correlation value > 0.9). If one feature is strongly correlated to another it can be dropped to reduce the dimensionality of the feature set. 
 The feature correlation matrix computed from the train set is shown in Figure 5. Only ADDRTYPE was found to be strongly correlated to JUNCTIONTYPE (-0.92). Since JUNCTIONTYPE had more missing values than ADDRTYPE in the initial dataset, the JUNCTIONTYPE feature was dropped.
