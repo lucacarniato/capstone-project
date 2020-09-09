@@ -72,9 +72,10 @@ Table 3 summarizes the train set after feature selection and data cleaning, and 
 For each feature, the records in the train set were grouped by the target value (0/1) to assess if the means group values were significantly different (t-test with a p-value <0.05). It was found that the mean group values were different, except for the month feature. For this reason, the month was dropped (Figure 2). This result was unexpected because severe accidents with personal injuries were expected to occur more frequently in fall or winter when the wheater conditions can be worse.
 
 ![Fig2](figures/Fig5.jpg)
- [Figure 2. Bar chart for month feature grouped by severity code]
+[Figure 2. Bar chart for month feature grouped by severity code]
 
-As expected, collisions involving a pedestrian or a bicycle more frequently results in a personal injury compared to collisions with no pedestrian or bicycle involved (Figure 3 and 4). When forecasting the severity of a collision is important to take into account the presence of persons and bicycles (such as at pedestrian of bicycle crossings).
+
+As expected, collisions involving a pedestrian or a bicycle more frequently results in a personal injury compared to collisions with no pedestrian or bicycle involved (Figure 3 and 4). When forecasting the severity of a collision, it is important to take into account the presence of persons and bicycles on the road (such as at pedestrian of bicycle crossings).
 
 ![Fig3](figures/Fig6.jpg)
 [Figure 3. Bar chart for PERSONCOUNT feature grouped by severity code]
@@ -83,7 +84,7 @@ As expected, collisions involving a pedestrian or a bicycle more frequently resu
 ![Fig4](figures/Fig7.jpg)
 [Figure 4. Bar chart for PEDCYLCOUNT feature grouped by severity code]
 
-Before jumping into modeling a correlation analysis was performed, to identify strongly correlated features (absolute correlation value > 0.9). If one feature is strongly correlated to another it can be dropped to reduce the dimensionality of the feature set. 
+Before jumping into modeling, a correlation analysis was performed, to identify strongly correlated features (absolute correlation value > 0.9). If one feature is strongly correlated to another it can be dropped to reduce the dimensionality of the feature set. 
 The feature correlation matrix computed from the train set is shown in Figure 5. Only ADDRTYPE was found to be strongly correlated to JUNCTIONTYPE (-0.92). Since JUNCTIONTYPE had more missing values than ADDRTYPE in the initial dataset, the JUNCTIONTYPE feature was dropped.
 
 ![Fig5](figures/Fig8.jpg)
