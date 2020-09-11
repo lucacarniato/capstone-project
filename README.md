@@ -2,7 +2,7 @@
 
 ## Introduction 
 ### Background
-The Seattle Police Department (SPD) provides road collisions records since 2004. The records describe the severity of each collision (0 property damage/ 1 personal injury) and additional information, such as the collision location, the weather condition, the road condition, and more. 
+The Seattle Police Department (SPD) provides road collisions records since 2004. The records describe the severity of each collision (0 property damage/ 1 personal injury) and additional information. 
 Preventing road collisions is a major concern for public authorities. Therefore, it is important for the SPD to accurately predict whatever a serious accident will occur given all available data. It is also important to identify the factors causing serious accidents, as these could be eliminated or mitigated before a collision occurs.
 
 ### Problem
@@ -30,7 +30,7 @@ First, the features identical to the target or containing the same information i
 
 Second, some features are missing an appropriate description and have a large percentage of missing values. These features were dropped.
 
-Third, features containing administrative information or collision details available only after a collision occurred were eliminated. Post-collision data were deemed not relavant for predicting feature collisions, because not available before the collision occours. 
+Third, features containing administrative information or collision details available only after a collision occurred were eliminated. Post-collision data were deemed not to be relavant for predicting feature collisions, because not available before the collision occours. 
 
 Fourth, the INCDATE feature was eliminated because the date of the collisin is already contained in the INCDTTM feature. 
 
@@ -42,7 +42,7 @@ Fifth, the location feature was eliminated because contains an information simil
 
 ### Data cleaning
 
-After dropping the features as described above, several other categorical features had a large ratio of missing values: INATTENTIONIND, PEDROWNOTGRNT, SPEEDING. These features contain only the value Y for "yes" and nan for "not a number". For them, it was speculated that nan corresponds to no (N) and not to a yes, as the SPD agent could have decided not to fill these fields when the condition was negative. All nans were converted to 0 and all Y to 1, transforming these three categorical features to numerical features. 
+After dropping the features as described above, several other categorical features had a large ratio of missing values: INATTENTIONIND, PEDROWNOTGRNT, SPEEDING. These features contain only the value Y for "yes" and nan for "not a number". For them, it was speculated that nan corresponds to no (N) and not to a yes, as the SPD agent could have decided not to fill these fields when the condition was negative. All nans were converted to 0 and all Y to 1, transforming these three categorical features into numerical features. 
 
 The UNDERINFL feature contains 4 values: N, 0, Y, 1. In this case, N was converted to 0 and Y to 1, transforming UNDERINFL into a numerical feature. For UNDERINFL, Y was not the only entry present in the original dataset, and nan entries were not assumed to indicate a negative condition.
 
@@ -52,7 +52,7 @@ The number of missing values in the JUNCTIONTYPE was reduced by using the first 
 
 As most predictive models only accept numerical values, the information of the INCDTTM feature was converted into 4 numerical features, namely the year, the month, the day of the week, and the hour. 
 
-Box plots were used to detect the outliers for features with a large range of variation (Figure 1). The collisions involving up to 81 persons, in a lane segment greater than 525241 and a crosswalk number larger than 5239700 are clearly outliers and were eliminated. In total, only 3 records of the train set were dropped.
+Box plots were used to detect extreme outliers for features with a large range of variation (Figure 1). The collisions involving up to 81 persons, in a lane segment greater than 525241 and a crosswalk number larger than 5239700 are clearly outliers and were eliminated. In total, only 3 records of the train set were dropped.
 
 ![Fig1](figures/Fig3.jpg)
 
@@ -74,7 +74,7 @@ For each feature, the records in the train set were grouped by the target value 
 [Figure 2. Bar chart for month feature grouped by severity code]
 
 
-As expected, collisions involving a pedestrian or a bicycle more frequently results in a personal injury compared to collisions with no pedestrian or bicycle involved (Figure 3 and 4). When forecasting the severity of a collision, it is important to take into account the presence of persons and bicycles on the road (such as at pedestrian of bicycle crossings).
+As expected, collisions involving a pedestrian or a bicycle more frequently result in a personal injury compared to collisions with no pedestrian or bicycle involved (Figure 3 and 4). When forecasting the severity of a collision, it is important to take into account the presence of persons and bicycles on the road (such as at pedestrian of bicycle crossings).
 
 ![Fig3](figures/Fig6.jpg)
 [Figure 3. Bar chart for PERSONCOUNT feature grouped by severity code]
@@ -91,7 +91,7 @@ The feature correlation matrix is shown in Figure 5. Only ADDRTYPE was found to 
 
  ### Modelling
 
-The train set is strongly unbalanced: 69.8% of the records have a target value equal to 0. The weights were set inversely proportional to class frequencies. This choiche mitigates the model bias towards predicting only the most frequent class, with the aim of maximizing model accuracy.
+The train set is strongly unbalanced: 69.8% of the records have a target value equal to 1. The weights were set inversely proportional to class frequencies. This choiche mitigates the bias in predicting only the most frequent class, with the aim of maximizing model accuracy.
 
 Before modeling, the feature values in the train and test set were also scaled using the feature's train set mean and standard deviation.
 
@@ -117,9 +117,8 @@ From the results, it is clear that models with high accuracy on severity 1 colli
 
  ## Conclusions
 
-In this study, the  Seattle Police Department collisions records were analyzed to build a model that predicts collisions causing personal injuries. 
-The predictive model can be used to issue a warning to the drivers when a serious accident is predicted.
+In this study, the  Seattle Police Department collisions records were analyzed to build a model that predicts collisions. The predictive model can be used to issue a warning to the drivers when a serious accident is predicted.
 
 After data cleaning and selecting only the feature describing the pre-collision conditions, a decision tree classifier was found to be able to predict severe accidents with 76% accuracy.
 The data set was strongly unbalanced towards collisions with severity code 1 (property damage). Additional records with severity code 2 (personal injuries) would help to improve the model performance for this type of accidents.
-For some feature with a large number of missing values the description was missing. In these cases, a description would have been useful during the feature selection process, to decide if the feature is relevant.
+For some feature with a large number of missing values the description was missing. In these cases, a description would have been useful during the feature selection process.
