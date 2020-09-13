@@ -6,10 +6,10 @@ The Seattle Police Department (SPD) provides road collisions records since 2004.
 Preventing road collisions is a major concern for public authorities. Therefore, it is important for the SPD to accurately predict whatever a serious accident will occur given all available data. It is also important to identify the factors causing serious accidents, as these could be eliminated or mitigated before a collision occurs.
 
 ### Problem
-This project aims to predict the severity of a collision given other factors, such as the wheatear condition, the road condition, the number of vehicles, and the number of persons on the road.
+This project aims to predict the severity of a collision given other factors, such as the wheatear condition, the road condition, the number of vehicles involved, and the number of persons on the road.
 
 ### Interest
-Predicting the severity of a collision can serve a warning system. The SPD could issue a warning on the highway signs when a serious accident is predicted (severity 1, personal injury), to inform the drivers to pay more attention while driving. 
+A model predicting the severity of collisions can be used for a warning system. The SPD could issue a warning on the highway signs when a serious accident is predicted (severity 1, personal injury), to inform the drivers to pay more attention while driving. 
 
 ## Data
 
@@ -30,7 +30,7 @@ First, the features identical to the target or containing the same information i
 
 Second, some features are missing an appropriate description and have a large percentage of missing values. These features were dropped.
 
-Third, features containing administrative information or collision details available only after a collision occurred were eliminated. Post-collision data were deemed not to be relavant for predicting feature collisions, because not available before the collision occours. 
+Third, features containing administrative information or post-collision details were eliminated. Post-collision data were deemed not relavant for predicting feature collisions, because not available before the collision occours. 
 
 Fourth, the INCDATE feature was eliminated because the date of the collisin is already contained in the INCDTTM feature. 
 
@@ -42,13 +42,13 @@ Fifth, the location feature was eliminated because contains an information simil
 
 ### Data cleaning
 
-After dropping the features as described above, several other categorical features had a large ratio of missing values: INATTENTIONIND, PEDROWNOTGRNT, SPEEDING. These features contain only the value Y for "yes" and nan for "not a number". For them, it was speculated that nan corresponds to no (N) and not to a yes, as the SPD agent could have decided not to fill these fields when the condition was negative. All nans were converted to 0 and all Y to 1, transforming these three categorical features into numerical features. 
+After dropping the features, several other categorical features had a large ratio of missing values: INATTENTIONIND, PEDROWNOTGRNT, SPEEDING. These features contain only the value Y for "yes" and nan for "not a number". For them, it was speculated that nan corresponds to no (N) and not to a yes, as the SPD agent could have decided not to fill these fields when the condition was negative. All nans were converted to 0 and all Y to 1, transforming these three categorical features into numerical features. 
 
 The UNDERINFL feature contains 4 values: N, 0, Y, 1. In this case, N was converted to 0 and Y to 1, transforming UNDERINFL into a numerical feature. For UNDERINFL, Y was not the only entry present in the original dataset, and nan entries were not assumed to indicate a negative condition.
 
 LIGHTCOND, ROADCOND, and WEATHER features already contain a value ‘Unknown’. For them, nan entries were converted to ‘Unknown’.
 
-The number of missing values in the JUNCTIONTYPE was reduced by using the first valid JUNCTIONTYPE entries of other records with the same X and Y coordinates. This decreased the number of missing values for JUNCTIONTYPE from 3.2% to 1.3% in the train set and from 3.3% to 1.6% in the test set.
+The number of missing values in the JUNCTIONTYPE was reduced by matching the first record with a valid JUNCTIONTYPE and identical X and Y coordinates. This decreased the number of missing values for JUNCTIONTYPE from 3.2% to 1.3% in the train set and from 3.3% to 1.6% in the test set.
 
 As most predictive models only accept numerical values, the information of the INCDTTM feature was converted into 4 numerical features, namely the year, the month, the day of the week, and the hour. 
 
@@ -68,7 +68,7 @@ Table 3 summarizes the train set after feature selection and data cleaning, and 
 
 ### Exploratory Data Analysis
 
-For each feature, the records in the train set were grouped by the target value (0/1) to assess if the means group values were significantly different (t-test with a p-value <0.05). It was found that the mean group values were different, except for the month feature. For this reason, the month feature was dropped (Figure 2). This result was unexpected because severe accidents with personal injuries were expected to occur more frequently in fall or winter, when the wheater conditions can be worse.
+For each feature, the records in the train set were grouped by the target value (0/1) to assess if the mean group values were significantly different (t-test with a p-value <0.05). It was found that the mean group values were different, except for the month feature. For this reason, the month feature was dropped (Figure 2). This result was unexpected because severe accidents with personal injuries were expected to occur more frequently in fall or winter, when the wheater conditions can be worse.
 
 ![Fig2](figures/Fig5.jpg)
 [Figure 2. Bar chart for month feature grouped by severity code]
@@ -87,6 +87,7 @@ Before jumping into modeling, a correlation analysis was performed, to identify 
 The feature correlation matrix is shown in Figure 5. Only ADDRTYPE was found to be strongly correlated to JUNCTIONTYPE (-0.92). Since JUNCTIONTYPE had more missing values than ADDRTYPE in the initial dataset, the JUNCTIONTYPE feature was dropped.
 
 ![Fig5](figures/Fig8.jpg)
+
 [Figure 5. Feature correlation matrix]
 
  ### Modelling
@@ -98,27 +99,40 @@ Before modeling, the feature values in the train and test set were also scaled u
 Four models were fitted to the train set and compared using the test set:
 
 * A Decision tree classifier: the node splitting criterion (Gini or entropy) and the tree max depth were tuned.
-* A XGBoost classifier:  the gamma parameter for the tree splitting and the tree max depth were tuned.
+* A XGBoost classifier:  the gamma parameter and the tree max depth were tuned.
 * A Random forest:  the node splitting criterion (Gini or entropy) and  the tree max depth were tuned.
 * A Soft voting classifier: build using the probabilities computed from the best models above.
 
-The parameters were tuned using the average negative log loss score computed with a 3 fold cross-validation method on the train data. The logarithmic loss was used as score function because it puts more emphasis on probabilities than other metrics. The optuna hyperparameter optimization framework was used to automate the hyperparameter search of each model.
+The parameters were tuned using the average negative log loss score computed with a 3 fold cross-validation method on the train data. The logarithmic loss was used as score function because it puts more emphasis on probabilities than other metrics. The optuna hyperparameter optimization framework was used to automate the search of the best hyperparameters.
 
 ## Results
 
 Table 4 shows the metrics on the test set for each model. In this case, it is more important to correctly predict a collision causing a personal injury that correctly predict a collision causing a property damage. The decision tree classifier correctly predicts more accurately collisions with a type 2 severity (76% of the validation set).
 
+Figure 5 shows the importance of each feature for the decision tree classifier. As can be seen, the features indicating the presence of persons on the road (PEDCOUNT, PERSONCOUNT, PEDCYLCOUNT) have the largest importance in determining the type of collision, followed by the address type, the weather condition, and the number of vehicles involved. 
+
 
 ![Tab4](figures/Fig9.jpg)
+
+[Table 4. Model metrics]
+
+
+
+![Tab4](figures/Fig10.jpg)
+
+[Figure 5. Decision tree feature importances]
 
  ## Discussion
 
 From the results, it is clear that models with high accuracy on severity 1 collisions tend to have lower accuracy on severity 2 collisions. XGBoost is the best model for severity 1 collisions and has the best accuracy and f1 score, but has a lower accuracy for severity 2 collisions. The decision tree has the opposite behavior. The voting model has an average performance for both collision types, between the XGBoost and the decision tree performances.  
 
- ## Conclusions
+The most important factor determining severity 2 collision is the presence of persons on the road (PEDCOUNT, PERSONCOUNT, PEDCYLCOUNT). This result makes sense and was anticipated in the exploratory data analysis.
 
-In this study, the  Seattle Police Department collisions records were analyzed to build a model that predicts collisions. The predictive model can be used to issue a warning to the drivers when a serious accident is predicted.
+## Conclusions
 
-After data cleaning and selecting only the feature describing the pre-collision conditions, a decision tree classifier was found to be able to predict severe accidents with 76% accuracy.
+In this study, the  Seattle Police Department collisions records were analyzed to build a model that predicts collision types. The predictive model can be used to issue a warning to the drivers when a serious accident is predicted.
+
+After data cleaning and selecting only the feature describing the pre-collision conditions, a decision tree classifier was found to be able to predict collisions causing personal injuries with 76% accuracy. Collisions involving personal injuries are more likely to happen in areas with more people on the road (such as pedestrian crossings). Road signs issuing warnings could be installed in these areas first, and then monitor the effectiveness in reducing severe collisions  
+
 The data set was strongly unbalanced towards collisions with severity code 1 (property damage). Additional records with severity code 2 (personal injuries) would help to improve the model performance for this type of accidents.
-For some feature with a large number of missing values the description was missing. In these cases, a description would have been useful during the feature selection process.
+For some features with a large number of missing values the description was missing. In these cases, a description would have been useful during the feature selection process.
