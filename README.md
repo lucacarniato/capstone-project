@@ -9,7 +9,7 @@ Preventing road collisions is a major concern for public authorities. Therefore,
 This project aims to predict the severity of a collision given other factors, such as the wheatear condition, the road condition, the number of vehicles involved, and the number of persons on the road.
 
 ### Interest
-A model predicting the severity of collisions can be used for a warning system. The SPD could issue a warning on the highway signs when a serious accident is predicted (severity 1, personal injury), to inform the drivers to pay more attention while driving. 
+A model predicting the severity of collisions can be used for a warning system. The SPD could issue a warning on road signs when a serious accident is predicted (severity 1, personal injury), to inform the drivers to pay more attention while driving. 
 
 ## Data
 
@@ -18,7 +18,7 @@ A model predicting the severity of collisions can be used for a warning system. 
 In this study, the SPD records from 2004 to 2020 were used. The data can be found [here](https://data-seattlecitygis.opendata.arcgis.com/). The description of each feature (metadata) can be found [here](https://www.seattle.gov/Documents/Departments/SDOT/GIS/Collisions_OD.pdf). The data source contains a mixture of categorical and continuous variables.
 
 ### Feature selection
-The entire set was immediately divided into a train and test set. Decisions on feature selection and data cleaning were taken by analyzing exclusively the test set and were applied therafter on both train and test sets. This choice was taken to avoid the look-ahead bias. Table 1 shows a summary of the test set.
+The entire set was immediately divided into a train and test set. Decisions on feature selection and data cleaning were taken by analyzing exclusively the test set and were applied therafter on both train and test sets. This choice was taken to avoid the look-ahead bias. Table 1 shows a summary of the test set data.
 
 ![Tab1](figures/Fig1.jpg)
 
@@ -111,20 +111,16 @@ Table 4 shows the metrics on the test set for each model. In this case, it is mo
 
 Figure 5 shows the importance of each feature for the decision tree classifier. As can be seen, the features indicating the presence of persons on the road (PEDCOUNT, PERSONCOUNT, PEDCYLCOUNT) have the largest importance in determining the type of collision, followed by the address type, the weather condition, and the number of vehicles involved. 
 
-
 ![Tab4](figures/Fig9.jpg)
 
 [Table 4. Model metrics]
 
-
-
 ![Tab4](figures/Fig10.jpg)
-
 [Figure 5. Decision tree feature importances]
 
  ## Discussion
 
-From the results, it is clear that models with high accuracy on severity 1 collisions tend to have lower accuracy on severity 2 collisions. XGBoost is the best model for severity 1 collisions and has the best accuracy and f1 score, but has a lower accuracy for severity 2 collisions. The decision tree has the opposite behavior. The voting model has an average performance for both collision types, between the XGBoost and the decision tree performances.  
+From the results, it is clear that models with high accuracy on severity 1 collisions have a lower accuracy on severity 2 collisions. The voting model is the best model for severity 1 collisions and has the best accuracy and f1 score, but has a lower accuracy for severity 2 collisions. The decision tree has the opposite behavior.  
 
 The most important factor determining severity 2 collision is the presence of persons on the road (PEDCOUNT, PERSONCOUNT, PEDCYLCOUNT). This result makes sense and was anticipated in the exploratory data analysis.
 
@@ -132,7 +128,7 @@ The most important factor determining severity 2 collision is the presence of pe
 
 In this study, the  Seattle Police Department collisions records were analyzed to build a model that predicts collision types. The predictive model can be used to issue a warning to the drivers when a serious accident is predicted.
 
-After data cleaning and selecting only the feature describing the pre-collision conditions, a decision tree classifier was found to be able to predict collisions causing personal injuries with 76% accuracy. Collisions involving personal injuries are more likely to happen in areas with more people on the road (such as pedestrian crossings). Road signs issuing warnings could be installed in these areas first, and then monitor the effectiveness in reducing severe collisions  
+After data cleaning and selecting only the feature describing the pre-collision conditions, a decision tree classifier was found to be able to predict collisions causing personal injuries with 76% accuracy. Collisions involving personal injuries are more likely to happen in areas with more people on the road (such as pedestrian crossings). Road signs issuing warnings could be installed in these areas first, and then monitor the effectiveness in reducing severe collisions.  
 
 The data set was strongly unbalanced towards collisions with severity code 1 (property damage). Additional records with severity code 2 (personal injuries) would help to improve the model performance for this type of accidents.
 For some features with a large number of missing values the description was missing. In these cases, a description would have been useful during the feature selection process.
