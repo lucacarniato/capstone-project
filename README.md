@@ -4,13 +4,13 @@
 ### Background
 The Seattle Police Department (SPD) provides road collisions records since 2004. The records describe the severity of each collision (0 property damage/1 personal injury) with additional information. 
 
-Preventing road collisions is a major concern for public authorities. Therefore, it is important to accurately predict whatever a serious accident will occur. It is also important to identify the factors causing serious accidents, as these could be eliminated or mitigated.
+Preventing road collisions is a major concern for public authorities and it is important to predict when a serious accident might occur. It is also important to identify the factors causing serious accidents in order to advise public authorities on how accidents can be prevented.
 
 ### Problem
-This project aims to predict the severity of a collision given other factors, such as the wheatear condition, the road condition, the number of vehicles involved, and the number of persons on the road.
+This project aims to predict the severity of a collision given other external conditions, such as the weather, the road condition, and the number of vehicles and persons on the road.
 
 ### Interest
-A model predicting the severity of collisions can be used for a warning system. The SPD could issue a warning on road signs when a serious accident is predicted (severity 1, personal injury), to inform the drivers to pay more attention while driving. 
+A car collision prediction model can be used as part of a warning system. The SPD could issue warnings on signs to inform the drivers to pay more attention while driving. 
 
 ## Data
 
@@ -28,7 +28,7 @@ The entire set was immediately divided into a train and test set. Decisions on f
 + First, the features identical to the target or containing the same information were eliminated.
 + Second, some features are missing an appropriate description and have a large percentage of missing values. These features were dropped.
 + Third, features containing administrative information or post-collision details were eliminated. Post-collision data were considered not relevant for predicting feature collisions because they will not be available when predicting. 
-+ Fourth, the INCDATE feature was eliminated because the collision date was already contained in the INCDTTM feature. 
++ Fourth, the INCDATE feature was eliminated because the collision time is already contained in the INCDTTM feature. 
 + Fifth, the location feature was eliminated because it contains information similar to the X and Y GPS coordinates.
 
 ![Tab2](figures/Fig2.jpg)
